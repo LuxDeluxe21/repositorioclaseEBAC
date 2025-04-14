@@ -2,34 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CUBOON : MonoBehaviour
+public class CUBOFINAL : MonoBehaviour
 {
-    public GameObject PrefabCUBOON;
-    public List<GameObject> listadeCUBOON;
+    public GameObject PrefabCUBOFINAL;
+    public List<GameObject> listadeCUBOFINAL;
     public float factorDeEscalamiento;
-    public int numCUBOON = 0;
+    public int numCUBOFINAL = 0;
 
-    //  variable booleana
-    public bool estado = false;
+    private bool estado = false;
 
-    //  referencias a los otros dos GO
-    public CUBOAWAKE cuboAwakeScript;
-    public CUBOSPAWNER cuboSpawnerScript;
+    // Referencias al cubo AND (CUBOON) y al cubo OR (CUBOOR)
+    public CUBOON cuboAND;
+    public CUBOOR cuboOR;
 
-    // Start is called before the first frame update
     void Start()
     {
-        listadeCUBOON = new List<GameObject>();
-
+        listadeCUBOFINAL = new List<GameObject>();
         GetComponent<Renderer>().material = new Material(GetComponent<Renderer>().material);
     }
 
     void FixedUpdate()
     {
-        //  Evaluar si ambos estados son verdaderos
-        if (cuboAwakeScript != null && cuboSpawnerScript != null)
+        if (cuboAND != null && cuboOR != null)
         {
-            if (cuboAwakeScript.estado && cuboSpawnerScript.estado)
+            // OR entre los estados de los dos cubos anteriores
+            if (cuboAND.estado || cuboOR.estado)
             {
                 estado = true;
             }
@@ -38,79 +35,71 @@ public class CUBOON : MonoBehaviour
                 estado = false;
             }
 
-            // Cambiar color segun el valor de estado propio
+            // Cambiar color según el estado
             if (estado)
             {
-                GetComponent<Renderer>().material.color = Color.blue;
+                GetComponent<Renderer>().material.color = Color.magenta;
             }
             else
             {
-                GetComponent<Renderer>().material.color = Color.red;
+                GetComponent<Renderer>().material.color = Color.yellow;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private void OnEnable()
     {
-        numCUBOON++;
-        GameObject tempGameObject = Instantiate<GameObject>(PrefabCUBOON);
-        tempGameObject.name = "CUBOONNumero" + numCUBOON;
+        numCUBOFINAL++;
+        GameObject tempGameObject = Instantiate<GameObject>(PrefabCUBOFINAL);
+        tempGameObject.name = "CUBOFINALNumero" + numCUBOFINAL;
         tempGameObject.transform.position = Random.insideUnitSphere;
 
-        listadeCUBOON.Add(tempGameObject);
+        listadeCUBOFINAL.Add(tempGameObject);
         List<GameObject> objetosParaEliminar = new List<GameObject>();
-        foreach (GameObject go in listadeCUBOON)
+        foreach (GameObject go in listadeCUBOFINAL)
         {
             float scale = go.transform.localScale.x;
             scale *= factorDeEscalamiento;
             go.transform.localScale = Vector3.one * scale;
 
-            if (factorDeEscalamiento <= 0.1)
+            if (factorDeEscalamiento <= 0.1f)
             {
                 objetosParaEliminar.Add(go);
             }
-
         }
 
         foreach (GameObject go in objetosParaEliminar)
         {
-            listadeCUBOON.Remove(go);
+            listadeCUBOFINAL.Remove(go);
             Destroy(go);
         }
-
     }
+
     private void OnDisable()
     {
-        numCUBOON++;
-        GameObject tempGameObject = Instantiate<GameObject>(PrefabCUBOON);
-        tempGameObject.name = "CUBOONNumero" + numCUBOON;
+        numCUBOFINAL++;
+        GameObject tempGameObject = Instantiate<GameObject>(PrefabCUBOFINAL);
+        tempGameObject.name = "CUBOFINALNumero" + numCUBOFINAL;
         tempGameObject.transform.position = Random.insideUnitSphere;
 
-        listadeCUBOON.Add(tempGameObject);
+        listadeCUBOFINAL.Add(tempGameObject);
         List<GameObject> objetosParaEliminar = new List<GameObject>();
-        foreach (GameObject go in listadeCUBOON)
+        foreach (GameObject go in listadeCUBOFINAL)
         {
             float scale = go.transform.localScale.x;
             scale *= factorDeEscalamiento;
             go.transform.localScale = Vector3.one * scale;
 
-            if (factorDeEscalamiento <= 0.1)
+            if (factorDeEscalamiento <= 0.1f)
             {
                 objetosParaEliminar.Add(go);
             }
-
         }
 
         foreach (GameObject go in objetosParaEliminar)
         {
-            listadeCUBOON.Remove(go);
+            listadeCUBOFINAL.Remove(go);
             Destroy(go);
         }
-
     }
 }
