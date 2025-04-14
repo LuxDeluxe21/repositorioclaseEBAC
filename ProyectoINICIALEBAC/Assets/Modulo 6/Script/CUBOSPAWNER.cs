@@ -9,10 +9,28 @@ public class CUBOSPAWNER : MonoBehaviour
     public float factorDeEscalamiento;
     public int numCUBOSPAWNER = 0;
 
+    public bool estado = false;
+
     // Start is called before the first frame update
     void Start()
     {
         listadeCUBOSPAWNER = new List<GameObject>();
+        GetComponent<Renderer>().material = new Material(GetComponent<Renderer>().material);
+    }
+    void FixedUpdate()
+    {
+        // Alternar el valor booleano
+        estado = !estado;
+
+        // Cambiar color según el valor de estado
+        if (estado)
+        {
+            GetComponent<Renderer>().material.color = Color.white;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Color.black;
+        }
     }
 
     // Update is called once per frame

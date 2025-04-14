@@ -9,6 +9,8 @@ public class CUBOAWAKE : MonoBehaviour
     public float factorDeEscalamiento;
     public int numCUBOAWAKE = 0;
 
+    public bool estado = false;
+
     private void Awake()
     {
         listadeCUBOAWAKE = new List<GameObject>();
@@ -41,12 +43,26 @@ public class CUBOAWAKE : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+    }
+    void FixedUpdate()
+    {
+        estado = !estado; // Cambia de true a false y viceversa
+
+        if (estado)
+        {
+            GetComponent<Renderer>().material.color = Color.white;
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Color.black;
+        }
     }
 }
+
